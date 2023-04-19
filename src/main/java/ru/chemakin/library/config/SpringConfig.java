@@ -84,6 +84,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     /** создает и возвращает JdbcTemplate,
      *  который используется для выполнения запросов к базе данных. **/
+    @Bean
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
