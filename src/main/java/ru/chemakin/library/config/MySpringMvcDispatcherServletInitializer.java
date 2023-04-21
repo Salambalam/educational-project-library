@@ -13,7 +13,7 @@ import java.util.EnumSet;
 public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     /** возвращает конфигурационные классы, которые будут использоваться для настройки ApplicationContext
-        в данном случае NULL, что значит, что настройка будет проводиться классом SpringConfig **/
+     в данном случае NULL, что значит, что настройка будет проводиться классом SpringConfig **/
     protected Class<?>[] getRootConfigClasses() {
         return null;
     }

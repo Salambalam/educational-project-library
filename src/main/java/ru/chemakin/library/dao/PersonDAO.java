@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.chemakin.library.model.Person;
 
+import java.util.List;
+
 @Component
 public class PersonDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -18,10 +20,11 @@ public class PersonDAO {
 
 
     /** метод извлекает всю таблицу Person из БД **/
-    public void index(){
-        jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+    public List<Person> index(){
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
         // query -  метод используется для выполнения запроса к базе данных и извлечения данных из нее.
         // BeanPropertyRowMapper - реализует RowMapper, который используется для преобразования строк БД в Java объекты
+
     }
 
 

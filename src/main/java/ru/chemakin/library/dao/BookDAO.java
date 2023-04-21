@@ -23,15 +23,16 @@ public class BookDAO {
     }
 
     public void save(Book book){
-        jdbcTemplate.update("INSERT INTO book(PERSON_ID, NAME, AUTHOR, YEAR_OF_PUBLISHING) VALUES(?, ?, ?, ?)",
-                book.getPersonId(), book.getName(), book.getAuthor(), book.getYearOfPublishing());
+        jdbcTemplate.update("INSERT INTO book(NAME, AUTHOR, YEAR_OF_PUBLISHING) VALUES(?, ?, ?)",
+                book.getName(), book.getAuthor(), book.getYearOfPublishing());
     }
 
     public void update(int bookId, Book updatedBook){
-        jdbcTemplate.update("UPDATE book SET person_id=?, name=?, author=?, year_of_publishing=? WHERE book_id=?",
-                updatedBook.getPersonId(), updatedBook.getName(), updatedBook.getAuthor(),
+        jdbcTemplate.update("UPDATE book SET name=?, author=?, year_of_publishing=? WHERE book_id=?",
+                updatedBook.getName(), updatedBook.getAuthor(),
                 updatedBook.getYearOfPublishing(), bookId);
     }
+    // написать методы для personID присовение книги
 
     public void delete(int bookId){
         jdbcTemplate.update("DELETE FROM book WHERE book_id=?", bookId);

@@ -15,7 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @ComponentScan("ru.chemakin.library")
@@ -73,7 +75,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("drivers");
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("drivers")));
         dataSource.setUsername(environment.getProperty("DB_username"));
         dataSource.setPassword(environment.getProperty("password"));
         dataSource.setUrl(environment.getProperty("url"));
