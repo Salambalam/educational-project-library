@@ -16,11 +16,13 @@ public class Book {
 
     private String yearOfPublishing;
     private int personId;
+    private int bookId;
 
-    public Book(String name, String author, String yearOfPublishing) {
+    public Book(String name, String author, String yearOfPublishing, int bookId) {
         this.name = name;
         this.author = author;
         this.yearOfPublishing = yearOfPublishing;
+        this.bookId = bookId;
     }
 
     public Book() {
@@ -56,5 +58,13 @@ public class Book {
 
     public void setPersonId(int personId) {
         this.personId = personId;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 }

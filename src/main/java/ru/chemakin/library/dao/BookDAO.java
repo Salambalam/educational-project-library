@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.chemakin.library.model.Book;
 
+import java.util.List;
+
 public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
 
@@ -21,6 +23,7 @@ public class BookDAO {
                 new Object[]{BookId}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
         // убрать orElse после добаления валидации
     }
+
 
     public void save(Book book){
         jdbcTemplate.update("INSERT INTO book(NAME, AUTHOR, YEAR_OF_PUBLISHING) VALUES(?, ?, ?)",

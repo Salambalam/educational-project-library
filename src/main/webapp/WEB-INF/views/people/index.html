@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<div th:each="person : ${people}">
-    <a th:href="@{people/{id}(id=${person.getId()})}"
+<div th:each="person : ${person}">
+    <a th:href="@{people/{id}(id=${person.getPerson_id()})}"
        th:text="${person.getName() + ', ' + person.getYearOfBirth()}">text</a>
 </div>
 

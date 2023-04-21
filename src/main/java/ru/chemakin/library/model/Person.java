@@ -1,10 +1,12 @@
 package ru.chemakin.library.model;
 
 
+import ru.chemakin.library.dao.PersonDAO;
+
 import javax.validation.constraints.*;
 
 public class Person {
-    private int id;
+    private int person_id;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
@@ -14,19 +16,19 @@ public class Person {
     @Min(value = 1900, message = "Year of Birth should be grater 1900")
     private int yearOfBirth;
     public Person(int id, String name, int yearOfBirth) {
-        this.id = id;
+        this.person_id = id;
         this.name = name;
         this.yearOfBirth = yearOfBirth;
     }
 
     public Person() {
     }
-    public int getId() {
-        return id;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getName() {
@@ -44,4 +46,5 @@ public class Person {
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
     }
+
 }
