@@ -52,20 +52,25 @@ public class PersonDAO {
 
     /** метод обновляет Person **/
     public void update(int id, Person updatedPerson){
-        jdbcTemplate.update("UPDATE Peson SET name=?, year_of_birth=? WHERE id=?",
+        jdbcTemplate.update("UPDATE Person SET name=?, year_of_birth=? WHERE person_id=?",
                 updatedPerson.getName(), updatedPerson.getYearOfBirth(), id);
     }
 
 
     /** метод удаляет Person по id **/
     public void delete(int id){
-        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", id);
     }
 
+
+    /** метод проверяет есть ли в таблице Book(в вторичном ключе) значение первичного ключа(Person) **/
     public boolean checkFK(int id){
-        int a = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM Book WHERE person_id = ?",
-                new Object[]{id}, Integer.class);
-        return a > 0;
+        // queryForObject() - запрос возвращает объект (обычный query() возвращает List<>)
+        // COUNT(*) считает кол-во значений которое подходят под условие
+        Integer result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM Book WHERE person_id = ?",
+                new Object[]{id}, Integer.class);  //Это нужно для проверки на null т.к. queryForObject может вернуть
+        int count = (result != null) ? result : 0; // null если не будет совпадений и при присвоенииибудет NullPointerException
+        return count > 0;
     }
 
 }

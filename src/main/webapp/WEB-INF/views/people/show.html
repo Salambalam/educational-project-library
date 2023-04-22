@@ -22,7 +22,9 @@
     <p>Человек пока не взял ни одной книги.</p>
 </div>
 
-<form th:method="DELETE" th:action="@{people/{id}(id=${people.getPerson_id()})}">
+<a th:href="@{/people/{id}/edit(id=${people.getPerson_id()})}">Edit</a>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPerson_id()})}" th:object="${people}">
     <input type="submit" value="Delete"/>
 </form>
 
