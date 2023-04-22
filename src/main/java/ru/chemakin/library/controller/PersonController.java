@@ -25,13 +25,13 @@ public class PersonController {
     public String show(@PathVariable("id") int id, Model model){
         model.addAttribute("people", personDAO.show(id));
         model.addAttribute("book", personDAO.showPeopleBook(id));
-        model.addAttribute("id", checkLink(id)); // добавить person_id в модель
+        model.addAttribute("condition", personDAO.checkFK(id)); // добавить person_id в модель
         return "people/show";
     }
 
-    @ModelAttribute("checkFK")
-    public boolean checkLink(int id){
-        return personDAO.checkFK(id);
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        personDAO.delete(id);
+        return "redirect:/people";
     }
-
 }

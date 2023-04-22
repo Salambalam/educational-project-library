@@ -9,10 +9,22 @@
 <p th:text="${people.getName() +  ', ' + people.getYearOfBirth()}">Name</p>
 <hr/>
 
-<a th:each="book : ${book}"
-   th:href="@{book/{id}(id=${book.getBookId()})}"
-   th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublishing()}"
-   th:if="${id}">text</a>
+<div th:if="${condition}">
+    <a th:each="book : ${book}"
+       th:href="@{book/{id}(id=${book.getBookId()})}">
+        <span th:text="${book.getName()}"></span>,
+        <span th:text="${book.getAuthor()}"></span>,
+        <span th:text="${book.getYearOfPublishing()}"></span>
+        <br/>
+    </a>
+</div>
+<div th:unless="${condition}">
+    <p>Человек пока не взял ни одной книги.</p>
+</div>
+
+<form th:method="DELETE" th:action="@{people/{id}(id=${people.getPerson_id()})}">
+    <input type="submit" value="Delete"/>
+</form>
 
 </body>
 </html>
