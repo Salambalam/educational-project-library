@@ -71,4 +71,28 @@ public class PersonController {
         personDAO.update(id, person);
         return "redirect:/people";
     }
+
+    /** Метод добавит в модель объект Person с именем "person" и вернет представление "people/new". **/
+    @GetMapping("/new")
+    public String newPerson(@ModelAttribute("person") Person person){
+        // @ModelAttribute("person") Person person указывает,
+        // что в модель представления будет добавлен объект типа Person с именем "person"
+        return "people/new";
+    }
+
+    /** метод вызывается после того как пользователь заполняет и отправляет форму, метод получит объект Person из модели,
+     *  выполнит валидацию и сохранит его в базе данных, если ошибок не найдено **/
+    @PostMapping() //данный метод будет обрабатывать POST запрос по адресу, указанному в аннотации @RequestMapping на уровне класса
+    public String create(@ModelAttribute("person") @Valid Person person,
+                         BindingResult bindingResult){
+        // @ModelAttribute("person") @Valid Person person означает,
+        // что объект Person будет получен из модели представления (которая заполняется в методе newPerson())
+        //personValidator.validate(person, bindingResult);
+
+        if(bindingResult.hasErrors()){
+            return "people/new";
+        }
+        personDAO.save(person);
+        return "redirect:/people";
+    }
 }

@@ -44,8 +44,8 @@ public class PersonDAO {
 
     /** метод добавляет Person в таблицу **/
     public void save(Person person){
-        jdbcTemplate.update("INSERT INTO Person(name, year_of_birth) VALUE(?, ?)",
-                person.getName(), person.getName());
+        jdbcTemplate.update("INSERT INTO Person(name, year_of_birth) VALUES (?, ?)",
+                person.getName(), person.getYearOfBirth());
         // update - метод для выполнения запроса на изменение данных в БД (добавление, обновление, удаление)
     }
 
