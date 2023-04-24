@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.chemakin.library.model.Book;
+import ru.chemakin.library.model.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,5 +49,18 @@ public class BookDAO {
 
     public void delete(int bookId){
         jdbcTemplate.update("DELETE FROM book WHERE book_id=?", bookId);
+    }
+
+    public boolean ownershipCheck(int bookId){
+        Boolean count = jdbcTemplate.queryForObject("SELECT * FROM book WHERE book_id=? and person_id IS NULL",
+                new Object[]{bookId}, Boolean.class);
+        return count != null;
+    }
+
+    public Person showPerson(int bookId){
+        return jdbcTemplate.queryForObject("SELECT p.person_id, p.name, p.year_of_birth " +
+                        "FROM Person p JOIN Book b ON p.person_id = b.person_id " +
+                        "WHERE b.book_id=?", new Object[]{bookId},
+                new BeanPropertyRowMapper<>(Person.class));
     }
 }

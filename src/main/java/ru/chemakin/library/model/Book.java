@@ -16,7 +16,7 @@ public class Book {
 
     @Max(value = 2023, message = "Year of publishing should be less then 2023.")
     private String yearOfPublishing;
-    private int personId;
+    private Integer personId;
     private int bookId;
 
     public Book(String name, String author, String yearOfPublishing, int bookId) {
@@ -53,11 +53,11 @@ public class Book {
         this.yearOfPublishing = yearOfPublishing;
     }
 
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 

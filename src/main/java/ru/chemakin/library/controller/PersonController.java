@@ -16,7 +16,6 @@ public class PersonController {
 
     public PersonController(PersonDAO personDAO) {
         this.personDAO = personDAO;
-
     }
 
     /** возвращает список всех людей в базе данных,

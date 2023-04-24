@@ -1,8 +1,5 @@
 package ru.chemakin.library.model;
 
-
-import ru.chemakin.library.dao.PersonDAO;
-
 import javax.validation.constraints.*;
 
 public class Person {
