@@ -14,6 +14,7 @@ public class Person {
             message = "You name should be in this format: Last_name First_name Second_name")
     private String name;
     @Min(value = 1900, message = "Year of Birth should be grater 1900")
+    @Max(value = 2023, message = "Year of Birth should be less then 2023")
     private int yearOfBirth;
     public Person(int id, String name, int yearOfBirth) {
         this.person_id = id;

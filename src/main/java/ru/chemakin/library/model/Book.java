@@ -1,5 +1,6 @@
 package ru.chemakin.library.model;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -13,7 +14,7 @@ public class Book {
             message = "Author name should be in this format: Last_name First_name")
     private String author;
 
-
+    @Max(value = 2023, message = "Year of publishing should be less then 2023.")
     private String yearOfPublishing;
     private int personId;
     private int bookId;

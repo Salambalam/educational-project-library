@@ -1,27 +1,36 @@
 package ru.chemakin.library.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ru.chemakin.library.model.Book;
 
 import java.util.List;
+import java.util.Optional;
 
+@Component
 public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void index(){
-        jdbcTemplate.query("SELECT * FROM Book",
+    public List<Book> index(){
+        return jdbcTemplate.query("SELECT * FROM Book",
                 new BeanPropertyRowMapper<>(Book.class));
     }
 
-    public void show(int BookId){
-        jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?",
+    public Optional<Book> show(String name){
+        return jdbcTemplate.query("SELECT * FROM Book WHERE name=?", new Object[]{name},
+                new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
+    }
+
+    public Book show(int BookId){
+        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?",
                 new Object[]{BookId}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
-        // убрать orElse после добаления валидации
     }
 
 
