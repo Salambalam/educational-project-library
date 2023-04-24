@@ -24,6 +24,13 @@ public class BookDAO {
                 new BeanPropertyRowMapper<>(Book.class));
     }
 
+    public List<Person> indexPerson(){
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+        // query -  метод используется для выполнения запроса к базе данных и извлечения данных из нее.
+        // BeanPropertyRowMapper - реализует RowMapper, который используется для преобразования строк БД в Java объекты
+
+    }
+
     public Optional<Book> show(String name){
         return jdbcTemplate.query("SELECT * FROM Book WHERE name=?", new Object[]{name},
                 new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
@@ -52,8 +59,8 @@ public class BookDAO {
     }
 
     public boolean ownershipCheck(int bookId){
-        Boolean count = jdbcTemplate.queryForObject("SELECT * FROM book WHERE book_id=? and person_id IS NULL",
-                new Object[]{bookId}, Boolean.class);
+        Integer count = jdbcTemplate.queryForObject("SELECT person_id FROM book WHERE book_id=?",
+                new Object[]{bookId}, Integer.class);
         return count != null;
     }
 
@@ -63,4 +70,10 @@ public class BookDAO {
                         "WHERE b.book_id=?", new Object[]{bookId},
                 new BeanPropertyRowMapper<>(Person.class));
     }
+
+    public void assignOwner(int personId, int bookId){
+        jdbcTemplate.update("UPDATE book SET person_id=? WHERE book_id=?;",
+                personId, bookId);
+    }
+
 }

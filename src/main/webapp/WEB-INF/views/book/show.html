@@ -7,6 +7,27 @@
 <body>
 
 <a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublishing()}">text</a>
+<br/>
+<div th:if="${condition}">
+    <a th:href="@{/people/{id}(id=${person.getPerson_id()})}"
+       th:text="${person.getName()} + ', ' + ${person.getYearOfBirth()}">parson data</a>
+</div>
+<div th:unless="${condition}">
+    <p>eqwer</p>
+</div>
+<!--<div th:unless="${condition}">-->
+<!--    <p>Эта книга свободна. Кому её назначить?</p>-->
+<!--    <br/>-->
+<!--    <form th:method="PATCH" th:action="@{/book/appiont}">-->
+<!--        <label for="chosenPerson">Выберите человека: </label>-->
+<!--        <select th:object="${chosenPerson}" th:field="${id}" id="chosenPerson">-->
+<!--            <option th:each="chosenPerson : ${people}" th:value="${chosenPerson.getPerson_id()}"-->
+<!--            th:text="${chosenPerson.getName()}"></option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Назначить книгу"/>-->
+<!--    </form>-->
+
+<!--</div>-->
 
 </body>
 </html>
