@@ -65,6 +65,9 @@ public class BookDAO {
     }
 
     public Person showPerson(int bookId){
+        if(!ownershipCheck(bookId)){
+            return null;
+        }
         return jdbcTemplate.queryForObject("SELECT p.person_id, p.name, p.year_of_birth " +
                         "FROM Person p JOIN Book b ON p.person_id = b.person_id " +
                         "WHERE b.book_id=?", new Object[]{bookId},
@@ -74,6 +77,11 @@ public class BookDAO {
     public void assignOwner(int personId, int bookId){
         jdbcTemplate.update("UPDATE book SET person_id=? WHERE book_id=?;",
                 personId, bookId);
+    }
+
+    public Person showOnePerson(int id){
+        return jdbcTemplate.queryForObject("SELECT * FROM Person WHERE person_id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Person.class));
     }
 
 }

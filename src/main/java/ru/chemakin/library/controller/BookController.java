@@ -27,22 +27,25 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(Model model, @PathVariable("id") int id){
-        boolean condition = bookDAO.ownershipCheck(id);
+    public String show(Model model, @PathVariable("id") int id,
+                       @ModelAttribute("chosenPerson") Person person){
         model.addAttribute("book", bookDAO.show(id));
-        model.addAttribute("condition", condition);
-        if(condition){
-            model.addAttribute("person", bookDAO.showPerson(id));
-        }
-        model.addAttribute("chosenPerson", new Person());
+        model.addAttribute("condition", bookDAO.ownershipCheck(id));
+        model.addAttribute("person", bookDAO.showPerson(id));
         model.addAttribute("people", bookDAO.indexPerson());
         return "book/show";
     }
 
-    @PatchMapping("/appoint")
+    @PatchMapping("/appoint/{id}")
     public String appoint(@ModelAttribute("chosenPerson") Person person,
-                          @ModelAttribute("book") Book book){
-        bookDAO.assignOwner(person.getPerson_id(), book.getBookId());
+                          @PathVariable("id") Integer id){
+        bookDAO.assignOwner(person.getPerson_id(), id);
+        return "redirect:/book";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        bookDAO.delete(id);
         return "redirect:/book";
     }
 }
