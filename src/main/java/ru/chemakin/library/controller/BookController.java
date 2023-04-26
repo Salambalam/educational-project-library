@@ -74,4 +74,19 @@ public class BookController {
         bookDAO.update(id, book);
         return "redirect:/book/" + id;
     }
+
+    @GetMapping("/new")
+    public String newBook(@ModelAttribute("book") Book book){
+        return "book/new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("book") @Valid Book book,
+                         BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "book/new";
+        }
+        bookDAO.save(book);
+        return "redirect:/book";
+    }
 }

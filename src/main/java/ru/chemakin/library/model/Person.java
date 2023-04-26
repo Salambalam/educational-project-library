@@ -7,8 +7,8 @@ public class Person {
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    @Pattern(regexp = "[А-Я]\\w+ [А-Я]\\w+ [А-Я]\\w+",
-            message = "You name should be in this format: Last_name First_name Second_name")
+    @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+ [А-Я][а-я]+",
+            message = "You name should be in this format: Фамилия Имя Отчество")
     private String name;
     @Min(value = 1900, message = "Year of Birth should be grater 1900")
     @Max(value = 2023, message = "Year of Birth should be less then 2023")

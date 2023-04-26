@@ -10,8 +10,8 @@ public class Book {
     @Size(min = 2, max = 50, message = "Book name should be between 2 and 50 characters")
     private String name;
     @NotEmpty(message = "Author Name should not be empty")
-    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+",
-            message = "Author name should be in this format: Last_name First_name")
+    @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+",
+            message = "Author name should be in this format: Имя Отчество")
     private String author;
 
     @Max(value = 2023, message = "Year of publishing should be less then 2023.")
