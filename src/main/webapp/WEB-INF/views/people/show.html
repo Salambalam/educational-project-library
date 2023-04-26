@@ -10,7 +10,7 @@
 
 <div th:if="${condition}">
     <a th:each="book : ${book}"
-       th:href="@{book/{id}(id=${book.getBookId()})}">
+       th:href="@{/book/{id}(id=${book.getBookId()})}">
         <span th:text="${book.getName()}"></span>,
         <span th:text="${book.getAuthor()}"></span>,
         <span th:text="${book.getYearOfPublishing()}"></span>
@@ -26,6 +26,9 @@
 <form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPerson_id()})}" th:object="${people}">
     <input type="submit" value="Delete"/>
 </form>
+<br/>
+
+
 
 </body>
 </html>

@@ -12,6 +12,10 @@
     <p>Эта книга сейчас у: <span style="white-space: nowrap;">
         <a th:href="@{/people/{id}(id=${person.getPerson_id()})}"
            th:text="${person.getName()} + ', ' + ${person.getYearOfBirth()}">parson data</a></span></p>
+    <form th:method="PATCH" th:action="@{/book/release}">
+        <input type="hidden" th:name="id" th:value="${book.getBookId()}" />
+        <input type="submit" value="Освободить книгу"/>
+    </form>
 </div>
 
 <div th:unless="${condition}">
@@ -23,14 +27,23 @@
             <option th:each="chosenPerson : ${people}" th:value="${chosenPerson.getPerson_id()}"
                     th:text="${chosenPerson.getName()}"></option>
         </select>
-        <input type="hidden" th:object="${book}" th:value="${book}"/>
         <input type="submit" value="Назначить книгу"/>
     </form>
 </div>
 
+
+
 <form th:method="DELETE" th:action="@{/book/{id}(id=${book.getBookId()})}" th:object="${book}">
     <input type="submit" value="Удалить"/>
 </form>
+<br/>
+
+<form th:action="@{/book/{id}/edit(id=${book.getBookId()})}" method="get">
+    <button type="submit">Редактировавть книгу</button>
+</form>
+<br/>
+
+<button onclick="window.location.href='/book'">Вернуться к списку книг</button>
 
 </body>
 </html>
