@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>Информация о человеке</title>
 </head>
 <body>
 <p th:text="${people.getName() +  ', ' + people.getYearOfBirth()}">Name</p>
 <hr/>
 
 <div th:if="${condition}">
+    <p style="font-weight: bold;">Книги:</p>
     <a th:each="book : ${book}"
        th:href="@{/book/{id}(id=${book.getBookId()})}">
         <span th:text="${book.getName()}"></span>,
@@ -21,12 +22,15 @@
     <p>Человек пока не взял ни одной книги.</p>
 </div>
 
-<a th:href="@{/people/{id}/edit(id=${people.getPerson_id()})}">Edit</a>
-
+<form th:action="@{/people/{id}/edit(id=${people.getPerson_id()})}" method="get">
+    <button type="submit">Изменить данные человека</button>
+</form>
+<br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPerson_id()})}" th:object="${people}">
     <input type="submit" value="Delete"/>
 </form>
 <br/>
+<button onclick="window.location.href='/people'">Вернуться к списку людей</button>
 
 
 

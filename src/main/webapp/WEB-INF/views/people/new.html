@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
-    <title>New people</title>
+    <title>Добавить человека</title>
 </head>
 <body>
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
@@ -14,8 +14,10 @@
   <input type="text" th:field="*{yearOfBirth}" id="year_of_birth"/>
   <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{name}">Name Error</div>
   <br/>
-  <input type="submit" value="Create!"/>
+  <input type="submit" value="Сохранить"/>
 </form>
+
+<button onclick="window.location.href='/people'">Отмена</button>
 
 </body>
 </html>

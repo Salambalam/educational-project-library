@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>Информация о книге</title>
 </head>
 <body>
 
@@ -31,15 +31,16 @@
     </form>
 </div>
 
-
-
-<form th:method="DELETE" th:action="@{/book/{id}(id=${book.getBookId()})}" th:object="${book}">
-    <input type="submit" value="Удалить"/>
-</form>
 <br/>
+
 
 <form th:action="@{/book/{id}/edit(id=${book.getBookId()})}" method="get">
     <button type="submit">Редактировавть книгу</button>
+</form>
+<br/>
+
+<form th:method="DELETE" th:action="@{/book/{id}(id=${book.getBookId()})}" th:object="${book}">
+    <input type="submit" value="Удалить"/>
 </form>
 <br/>
 
