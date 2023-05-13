@@ -23,8 +23,8 @@ public class PersonController {
      * и возвращает представление "people/index".
      */
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("people", personDAO.index());
+    public String index(Model model){
+        model.addAttribute("person", personDAO.index());
         return "people/index";
     }
 
@@ -34,9 +34,9 @@ public class PersonController {
      * и возвращает представление "people/show".
      */
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.show(id));
-        model.addAttribute("books", personDAO.showPeopleBook(id));
+    public String show(@PathVariable("id") int id, Model model){
+        model.addAttribute("people", personDAO.show(id));
+        model.addAttribute("book", personDAO.showPeopleBook(id));
         model.addAttribute("condition", personDAO.checkFK(id)); // добавить person_id в модель
         return "people/show";
     }
@@ -46,7 +46,7 @@ public class PersonController {
      * Затем он перенаправляет пользователя на представление "redirect:/people".
      */
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public String delete(@PathVariable("id") int id){
         personDAO.delete(id);
         return "redirect:/people";
     }

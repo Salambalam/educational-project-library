@@ -33,7 +33,8 @@ public class BookDAO {
      * @return список книг.
      */
     public List<Book> index(){
-        return jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM Book",
+                new BeanPropertyRowMapper<>(Book.class));
     }
 
     /**
@@ -98,9 +99,9 @@ public class BookDAO {
      * @return true, если книга принадлежит человеку, и false в противном случае
      */
     public boolean ownershipCheck(int bookId){
-        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM book WHERE book_id=?",
+        Integer count = jdbcTemplate.queryForObject("SELECT person_id FROM book WHERE book_id=?",
                 new Object[]{bookId}, Integer.class);
-        return count != null && count > 0;
+        return count != null;
     }
 
     /**
