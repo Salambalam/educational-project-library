@@ -1,21 +1,26 @@
 package ru.chemakin.library.controller;
 
-import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.chemakin.library.dao.PersonDAO;
+import ru.chemakin.library.model.Book;
 import ru.chemakin.library.model.Person;
+import ru.chemakin.library.servises.PersonService;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 public class PersonController {
 
-    private final PersonDAO personDAO;
+    private final PersonService personService;
 
-    public PersonController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    @Autowired
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -24,7 +29,7 @@ public class PersonController {
      */
     @GetMapping
     public String index(Model model){
-        model.addAttribute("person", personDAO.index());
+        model.addAttribute("person", personService.findAll());
         return "people/index";
     }
 
@@ -35,9 +40,10 @@ public class PersonController {
      */
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
-        model.addAttribute("people", personDAO.show(id));
-        model.addAttribute("book", personDAO.showPeopleBook(id));
-        model.addAttribute("condition", personDAO.checkFK(id)); // добавить person_id в модель
+        List<Book> books = personService.getAllPersonBooks(id);
+        model.addAttribute("people", personService.findOne(id));
+        model.addAttribute("book", books);
+        model.addAttribute("condition", !books.isEmpty()); // добавить person_id в модель
         return "people/show";
     }
 
@@ -47,7 +53,7 @@ public class PersonController {
      */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
-        personDAO.delete(id);
+        personService.delete(id);
         return "redirect:/people";
     }
 
@@ -57,7 +63,7 @@ public class PersonController {
      */
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("person", personService.findOne(id));
         return "people/edit";
     }
 
@@ -74,7 +80,7 @@ public class PersonController {
         if (bindingResult.hasErrors()) {
             return "people/edit";
         }
-        personDAO.update(id, person);
+        personService.update(id, person);
         return "redirect:/people";
     }
 
@@ -105,7 +111,7 @@ public class PersonController {
         }
 
         // Если валидация прошла успешно, сохранить объект Person в базе данных и выполнить редирект на страницу со списком людей.
-        personDAO.save(person);
+        personService.save(person);
         return "redirect:/people";
     }
 }
