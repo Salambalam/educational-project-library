@@ -24,7 +24,7 @@ public class PersonController {
      */
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("person", personDAO.index());
         return "people/index";
     }
 
@@ -36,7 +36,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
-        model.addAttribute("books", personDAO.showPeopleBook(id));
+        model.addAttribute("book", personDAO.showPeopleBook(id));
         model.addAttribute("condition", personDAO.checkFK(id)); // добавить person_id в модель
         return "people/show";
     }
