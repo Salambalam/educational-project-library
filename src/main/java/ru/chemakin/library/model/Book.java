@@ -1,23 +1,34 @@
 package ru.chemakin.library.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @Column(name = "book_id")
+    private int bookId;
     @NotEmpty(message = "Book name should not be empty")
     @Size(min = 2, max = 50, message = "Book name should be between 2 and 50 characters")
+    @Column(name = "name")
     private String name;
     @NotEmpty(message = "Author Name should not be empty")
     @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+",
             message = "Author name should be in this format: Имя Отчество")
+    @Column(name = "author")
     private String author;
-
     @Max(value = 2023, message = "Year of publishing should be less then 2023.")
+    @Column(name = "year_of_publishing")
     private int yearOfPublishing;
+    @Column(name = "person_id")
     private Integer personId;
-    private int bookId;
 
     public Book(String name, String author, int yearOfPublishing, int bookId) {
         this.name = name;
