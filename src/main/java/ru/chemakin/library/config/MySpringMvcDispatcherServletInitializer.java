@@ -12,24 +12,21 @@ import java.util.EnumSet;
 
 public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    /** возвращает конфигурационные классы, которые будут использоваться для настройки ApplicationContext
-     в данном случае NULL, что значит, что настройка будет проводиться классом SpringConfig **/
+    @Override
     protected Class<?>[] getRootConfigClasses() {
         return null;
     }
 
-    /** возвращает конфигурационные классы, которые будут использоваться для настройки DispatcherServlet **/
+    @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringConfig.class};
     }
 
-    /** определяет, какие URL будут обрабатываться диспетчером сервлетов Spring MVC.
-     *  В данном случает будет обрабатывать все URL **/
+    @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
 
-    /** метод вызывается при запуске приложения **/
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
         super.onStartup(aServletContext);
@@ -37,16 +34,11 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
         registerHiddenFieldFilter(aServletContext);
     }
 
-    /** метод, который регистрирует фильтр HiddenHttpMethodFilter,
-     *  который позволяет использовать HTTP-методы PUT, PATCH и DELETE в браузерах,
-     *  которые их не поддерживают. **/
     private void registerHiddenFieldFilter(ServletContext aContext) {
         aContext.addFilter("hiddenHttpMethodFilter",
-                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null ,true, "/*");
+                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
     }
 
-
-    /** метод, который устанавливает кодироку UTF-8 **/
     private void registerCharacterEncodingFilter(ServletContext aContext) {
         EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
 
