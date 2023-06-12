@@ -23,7 +23,7 @@ public class PersonController {
      * и возвращает представление "people/index".
      */
     @GetMapping
-    public String index(Model model){
+    public String index(Model model) {
         model.addAttribute("person", personDAO.index());
         return "people/index";
     }

@@ -5,7 +5,7 @@
     <title>Информация о человеке</title>
 </head>
 <body>
-<p th:text="${people.getName() +  ', ' + people.getYearOfBirth()}">Name</p>
+<p th:text="${person.getName() +  ', ' + person.getYearOfBirth()}">Name</p>
 <hr/>
 
 <div th:if="${condition}">
@@ -22,11 +22,11 @@
     <p>Человек пока не взял ни одной книги.</p>
 </div>
 
-<form th:action="@{/people/{id}/edit(id=${people.getPerson_id()})}" method="get">
+<form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}" method="get">
     <button type="submit">Изменить данные человека</button>
 </form>
 <br/>
-<form th:method="DELETE" th:action="@{/people/{id}(id=${people.getPerson_id()})}" th:object="${people}">
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${people}">
     <input type="submit" value="Delete"/>
 </form>
 <br/>
