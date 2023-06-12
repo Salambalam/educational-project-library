@@ -44,8 +44,8 @@ public class BookValidator implements Validator {
     @Override
     public void validate(Object object, Errors errors) {
         Book book = (Book) object;
-        if (bookDAO.show(book.getName()).isPresent()) { // проверяем, есть ли в БД объект с таким же названием
-            errors.rejectValue("name", "", "This Title is already taken."); // добавляем сообщение об ошибке, если такой объект есть
-        }
+//        if (bookDAO.show(book.getName()).isPresent()) { // проверяем, есть ли в БД объект с таким же названием
+//            errors.rejectValue("name", "", "This Title is already taken."); // добавляем сообщение об ошибке, если такой объект есть
+//        }
     }
 }
