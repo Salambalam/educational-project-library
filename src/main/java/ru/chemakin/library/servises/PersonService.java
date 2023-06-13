@@ -37,7 +37,7 @@ public class PersonService {
 
     @Transactional
     public void update(int id, Person updatedPerson){
-        updatedPerson.setPerson_id(id);
+        updatedPerson.setPersonId(id);
         personRepository.save(updatedPerson);
     }
 
@@ -49,4 +49,5 @@ public class PersonService {
     public List<Book> getAllPersonBooks(int id){
         return bookRepository.findByPersonId(id);
     }
+
 }

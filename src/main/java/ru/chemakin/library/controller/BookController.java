@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.chemakin.library.dao.BookDAO;
 import ru.chemakin.library.model.Book;
 import ru.chemakin.library.model.Person;
+import ru.chemakin.library.servises.BookService;
+import ru.chemakin.library.servises.PersonService;
 import ru.chemakin.library.util.BookValidator;
 
 import javax.validation.Valid;
@@ -19,15 +21,22 @@ public class BookController {
     private final BookDAO bookDAO; // Поле, хранящее ссылку на объект BookDAO для работы с БД
     private final BookValidator bookValidator;// Поле, хранящее ссылку на объект BookValidator для валидации входящих данных и обработки ошибок
 
+    private final BookService bookService;
+    private final PersonService personService;
     /**
      * Коструктор  BookController внедряет BookDAO и BookValidator
-     * @param bookDAO - для работы с БД
+     *
+     * @param bookDAO       - для работы с БД
      * @param bookValidator - для проведения валидации
+     * @param bookService
+     * @param personService
      */
     @Autowired
-    public BookController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BookController(BookDAO bookDAO, BookValidator bookValidator, BookService bookService, PersonService personService) {
         this.bookDAO = bookDAO;
         this.bookValidator = bookValidator;
+        this.bookService = bookService;
+        this.personService = personService;
     }
 
     /**
@@ -36,7 +45,7 @@ public class BookController {
      */
     @GetMapping
     public String index(Model model){
-        model.addAttribute("book", bookDAO.index());
+        model.addAttribute("book", bookService.finAll());
         return "book/index";
     }
 
@@ -50,10 +59,11 @@ public class BookController {
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id") int id,
                        @ModelAttribute("chosenPerson") Person person){
-        model.addAttribute("book", bookDAO.show(id));
-        model.addAttribute("condition", bookDAO.ownershipCheck(id));
-        model.addAttribute("person", bookDAO.showPerson(id));
-        model.addAttribute("people", bookDAO.indexPerson());
+        Book book = bookService.findOne(id);
+        model.addAttribute("book", book);
+        model.addAttribute("condition", !(book.getPersonId() == null));
+        model.addAttribute("person", bookService.getOwnership(book));
+        model.addAttribute("people", personService.findAll());
         return "book/show";
     }
 
@@ -64,7 +74,7 @@ public class BookController {
     @PatchMapping("/appoint/{id}")
     public String appoint(@ModelAttribute("chosenPerson") Person person,
                           @PathVariable("id") Integer id){
-        bookDAO.assignOwner(person.getPerson_id(), id);
+        bookDAO.assignOwner(person.getPersonId(), id);
         return "redirect:/book/" + id;
     }
 
@@ -74,7 +84,7 @@ public class BookController {
      */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
-        bookDAO.delete(id);
+        bookService.delete(id);
         return "redirect:/book";
     }
 
@@ -85,7 +95,7 @@ public class BookController {
      */
     @PatchMapping("/release")
     public String release(@RequestParam("id") int id){
-        bookDAO.release(id);
+        bookService.release(id);
         return "redirect:/book/" + id;
     }
 
@@ -96,7 +106,7 @@ public class BookController {
      */
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("book", bookService.findOne(id));
         return "/book/edit";
     }
 
@@ -115,7 +125,7 @@ public class BookController {
         if(bindingResult.hasErrors()){
             return "book/edit";
         }
-        bookDAO.update(id, book);
+        bookService.update(id, book);
         return "redirect:/book/" + id;
     }
 
@@ -144,7 +154,7 @@ public class BookController {
         if(bindingResult.hasErrors()){
             return "book/new";
         }
-        bookDAO.save(book);
+        bookService.save(book);
         return "redirect:/book";
     }
 }
