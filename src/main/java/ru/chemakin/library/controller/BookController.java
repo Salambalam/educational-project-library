@@ -43,9 +43,10 @@ public class BookController {
                         @RequestParam(value = "page", required = false) Integer countPage,
                         @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
         if(countPage != null && booksPerPage != null){
-            List<Book> books = bookService.getPartListOfBooks(countPage, booksPerPage);
+            model.addAttribute("book", bookService.getPartListOfBooks(countPage, booksPerPage));
+        }else {
+            model.addAttribute("book", bookService.finAll());
         }
-        model.addAttribute("book", bookService.finAll());
         return "book/index";
     }
 
