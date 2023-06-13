@@ -10,7 +10,7 @@
 <br/>
 <div th:if="${condition}">
     <p>Эта книга сейчас у: <span style="white-space: nowrap;">
-        <a th:href="@{/people/{id}(id=${person.getPerson_id()})}"
+        <a th:href="@{/people/{id}(id=${person.getPersonId()})}"
            th:text="${person.getName()} + ', ' + ${person.getYearOfBirth()}">parson data</a></span></p>
     <form th:method="PATCH" th:action="@{/book/release}">
         <input type="hidden" th:name="id" th:value="${book.getBookId()}" />
@@ -21,7 +21,7 @@
 <div th:unless="${condition}">
     <p>Эта книга свободна. Кому её назначить?</p>
     <br/>
-    <form th:method="PATCH" th:action="@{/book/appoint/{id}(id=${book.getBookId()})}">
+    <form th:method="PATCH" th:action="@{/book/{id}(id=${book.getBookId()})/appoint}">
         <label for="drop-downList">Выберите человека: </label>
         <select th:object="${chosenPerson}" th:field="*{personId}" id="drop-downList">
             <option th:each="chosenPerson : ${people}" th:value="${chosenPerson.getPerson_id()}"

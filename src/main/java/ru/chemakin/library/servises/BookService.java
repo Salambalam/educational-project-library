@@ -53,11 +53,17 @@ public class BookService {
     }
 
     @Transactional
-    public void release(int id){
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        Book book;
-        if(optionalBook.isPresent()){
-            book = optionalBook.get();
+    public void setPersonId(Person person, int bookId){
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
+            book.setPersonId(person.getPersonId());
+            bookRepository.save(book);
+        }
+    }
+    @Transactional
+    public void setPersonId(int bookId){
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
             book.setPersonId(null);
             bookRepository.save(book);
         }

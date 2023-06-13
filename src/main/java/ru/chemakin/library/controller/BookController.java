@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.chemakin.library.dao.BookDAO;
 import ru.chemakin.library.model.Book;
 import ru.chemakin.library.model.Person;
 import ru.chemakin.library.servises.BookService;
@@ -18,7 +17,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/book")
 public class BookController {
-    private final BookDAO bookDAO; // Поле, хранящее ссылку на объект BookDAO для работы с БД
     private final BookValidator bookValidator;// Поле, хранящее ссылку на объект BookValidator для валидации входящих данных и обработки ошибок
 
     private final BookService bookService;
@@ -26,14 +24,10 @@ public class BookController {
     /**
      * Коструктор  BookController внедряет BookDAO и BookValidator
      *
-     * @param bookDAO       - для работы с БД
      * @param bookValidator - для проведения валидации
-     * @param bookService
-     * @param personService
      */
     @Autowired
-    public BookController(BookDAO bookDAO, BookValidator bookValidator, BookService bookService, PersonService personService) {
-        this.bookDAO = bookDAO;
+    public BookController(BookValidator bookValidator, BookService bookService, PersonService personService) {
         this.bookValidator = bookValidator;
         this.bookService = bookService;
         this.personService = personService;
@@ -71,10 +65,10 @@ public class BookController {
      * метод делает редирект на страницу книги с переданным ид
      * назначает книгу внедренному человеку по его ID
      */
-    @PatchMapping("/appoint/{id}")
+    @PatchMapping("/{id}/appoint") // мделать форму с скрытым полем
     public String appoint(@ModelAttribute("chosenPerson") Person person,
                           @PathVariable("id") Integer id){
-        bookDAO.assignOwner(person.getPersonId(), id);
+        bookService.setPersonId(person, id);
         return "redirect:/book/" + id;
     }
 
@@ -95,7 +89,7 @@ public class BookController {
      */
     @PatchMapping("/release")
     public String release(@RequestParam("id") int id){
-        bookService.release(id);
+        bookService.setPersonId(id);
         return "redirect:/book/" + id;
     }
 
