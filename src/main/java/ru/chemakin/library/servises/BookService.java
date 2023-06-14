@@ -8,6 +8,7 @@ import ru.chemakin.library.model.Person;
 import ru.chemakin.library.repositories.BookRepository;
 import ru.chemakin.library.repositories.PersonRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -72,4 +73,13 @@ public class BookService {
         }
     }
 
+    public List<Book> getPartListOfBooks(Integer countPage, Integer booksPerPage) {
+        List<Book> books = bookRepository.findAll();// поискать как можно сделать запрос который вернет с какого то по какой то элементы из таблицы
+        List<Book> partBooks = new ArrayList<>();// либо есть в репоситории либо написать запрос через query()
+        int maxNumberElement = Math.min((countPage * booksPerPage) + booksPerPage, books.size());
+        for (int i = countPage * booksPerPage; i < maxNumberElement; i++) {
+            partBooks.add(books.get(i));
+        }
+        return partBooks;
+    }
 }

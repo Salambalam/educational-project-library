@@ -12,6 +12,7 @@ import ru.chemakin.library.servises.PersonService;
 import ru.chemakin.library.util.BookValidator;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /** Класс контроллер, обрабатывает запрос "/book" **/
 @Controller
@@ -38,7 +39,12 @@ public class BookController {
      * и возвращает представление "book/index" передавая в него при этом список всех книг
      */
     @GetMapping
-    public String index(Model model){
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) Integer countPage,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+        if(countPage != null && booksPerPage != null){
+            List<Book> books = bookService.getPartListOfBooks(countPage, booksPerPage);
+        }
         model.addAttribute("book", bookService.finAll());
         return "book/index";
     }
