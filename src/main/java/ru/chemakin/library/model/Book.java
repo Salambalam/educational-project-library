@@ -1,9 +1,6 @@
 package ru.chemakin.library.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -14,6 +11,7 @@ import javax.validation.constraints.Size;
 public class Book {
     @Id
     @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookId;
     @NotEmpty(message = "Book name should not be empty")
     @Size(min = 2, max = 50, message = "Book name should be between 2 and 50 characters")

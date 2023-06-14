@@ -9,8 +9,6 @@ import ru.chemakin.library.repositories.BookRepository;
 import ru.chemakin.library.repositories.PersonRepository;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,7 +47,11 @@ public class BookService {
     }
 
     public Person getOwnership(Book book){
-        return personRepository.findById(book.getPersonId()).orElse(null);
+        if(book.getPersonId() != null) {
+            return personRepository.findById(book.getPersonId()).orElse(null);
+        }else{
+            return null;
+        }
     }
 
     @Transactional
@@ -57,6 +59,7 @@ public class BookService {
         Book book = bookRepository.findById(bookId).orElse(null);
         if (book != null) {
             book.setPersonId(person.getPersonId());
+            System.out.println(book.getPersonId());
             bookRepository.save(book);
         }
     }

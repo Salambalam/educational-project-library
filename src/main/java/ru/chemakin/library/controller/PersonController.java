@@ -41,7 +41,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
         List<Book> books = personService.getAllPersonBooks(id);
-        model.addAttribute("people", personService.findOne(id));
+        model.addAttribute("person", personService.findOne(id));
         model.addAttribute("book", books);
         model.addAttribute("condition", !books.isEmpty()); // добавить person_id в модель
         return "people/show";

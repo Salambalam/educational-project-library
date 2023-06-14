@@ -55,7 +55,7 @@ public class BookController {
                        @ModelAttribute("chosenPerson") Person person){
         Book book = bookService.findOne(id);
         model.addAttribute("book", book);
-        model.addAttribute("condition", !(book.getPersonId() == null));
+        model.addAttribute("condition", book.getPersonId() != null);
         model.addAttribute("person", bookService.getOwnership(book));
         model.addAttribute("people", personService.findAll());
         return "book/show";

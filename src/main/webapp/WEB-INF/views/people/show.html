@@ -22,12 +22,12 @@
     <p>Человек пока не взял ни одной книги.</p>
 </div>
 
-<form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}" method="get">
+<form th:action="@{/people/{id}/edit(id=${person.getPersonId()})}" method="get">
     <button type="submit">Изменить данные человека</button>
 </form>
 <br/>
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${people}">
-    <input type="submit" value="Delete"/>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}" th:object="${person}">
+    <input type="submit" value="Удалить человека"/>
 </form>
 <br/>
 <button onclick="window.location.href='/people'">Вернуться к списку людей</button>
