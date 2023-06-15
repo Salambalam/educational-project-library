@@ -8,8 +8,9 @@ import ru.chemakin.library.model.Person;
 import ru.chemakin.library.repositories.BookRepository;
 import ru.chemakin.library.repositories.PersonRepository;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,10 +22,6 @@ public class BookService {
     public BookService(BookRepository bookRepository, PersonRepository personRepository) {
         this.bookRepository = bookRepository;
         this.personRepository = personRepository;
-    }
-
-    public List<Book> finAll(){
-        return bookRepository.findAll();
     }
 
     public Book findOne(int id){
@@ -73,13 +70,28 @@ public class BookService {
         }
     }
 
-    public List<Book> getPartListOfBooks(Integer countPage, Integer booksPerPage) {
-        List<Book> books = bookRepository.findAll();// поискать как можно сделать запрос который вернет с какого то по какой то элементы из таблицы
-        List<Book> partBooks = new ArrayList<>();// либо есть в репоситории либо написать запрос через query()
-        int maxNumberElement = Math.min((countPage * booksPerPage) + booksPerPage, books.size());
-        for (int i = countPage * booksPerPage; i < maxNumberElement; i++) {
-            partBooks.add(books.get(i));
+    public List<Book> getListOfBooks(Integer countPage, Integer booksPerPage, String sortByYear) {
+        if(sortByYear != null && sortByYear.equals("true")){
+            if(countPage != null && booksPerPage != null){
+                return partOfBooks(countPage, booksPerPage, sortBooks(bookRepository.findAll()));
+            }
+            return sortBooks(bookRepository.findAll());
+        }else{
+            if(countPage == null || booksPerPage == null){
+                return bookRepository.findAll();
+            }
+            return partOfBooks(countPage, booksPerPage, bookRepository.findAll());
         }
-        return partBooks;
+    }
+
+    private List<Book> partOfBooks(Integer countPage, Integer booksPerPage, List<Book> books) {
+        int startIndex = countPage * booksPerPage;
+        int endIndex = Math.min(startIndex + booksPerPage, books.size());
+        return books.subList(startIndex, endIndex);
+    }
+
+
+    private List<Book> sortBooks(List<Book> books){
+        return books.stream().sorted(Comparator.comparingInt(Book::getYearOfPublishing)).collect(Collectors.toList());
     }
 }

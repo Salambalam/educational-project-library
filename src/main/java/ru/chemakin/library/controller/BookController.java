@@ -40,12 +40,9 @@ public class BookController {
     @GetMapping
     public String index(Model model,
                         @RequestParam(value = "page", required = false) Integer countPage,
-                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
-        if(countPage != null && booksPerPage != null){
-            model.addAttribute("book", bookService.getPartListOfBooks(countPage, booksPerPage));
-        }else {
-            model.addAttribute("book", bookService.finAll());
-        }
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_year", required = false) String sortByYear) {
+        model.addAttribute("book", bookService.getListOfBooks(countPage, booksPerPage, sortByYear));
         return "book/index";
     }
 
