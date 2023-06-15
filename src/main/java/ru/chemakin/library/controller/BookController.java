@@ -12,7 +12,6 @@ import ru.chemakin.library.servises.PersonService;
 import ru.chemakin.library.util.BookValidator;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /** Класс контроллер, обрабатывает запрос "/book" **/
 @Controller
