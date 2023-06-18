@@ -28,6 +28,10 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
+    public List<Book> findByName(String name){
+        return bookRepository.findBookByNameContainsIgnoreCase(name);
+    }
+
     @Transactional
     public void save(Book book){
         bookRepository.save(book);

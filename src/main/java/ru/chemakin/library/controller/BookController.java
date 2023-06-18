@@ -12,6 +12,7 @@ import ru.chemakin.library.servises.PersonService;
 import ru.chemakin.library.util.BookValidator;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /** Класс контроллер, обрабатывает запрос "/book" **/
 @Controller
@@ -153,5 +154,17 @@ public class BookController {
         }
         bookService.save(book);
         return "redirect:/book";
+    }
+
+    @GetMapping("/search") //написать патч метод который принимает форму и возвращает страницу search
+    public String search(Model model,
+            @RequestParam(value = "searchBook", required = false) String name){ // если null то выводить "введите название книги"
+        model.addAttribute("nullName", name == null);
+        if(name != null){
+            List<Book> bookList = bookService.findByName(name);
+            model.addAttribute("books", bookList); // если нет совпадений то вывыдить "нет совпадений"return "redirect:/book/search";
+            model.addAttribute("peoples", personService.getPersonMap(bookList));
+        }
+        return "/book/search";
     }
 }

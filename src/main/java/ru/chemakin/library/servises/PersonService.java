@@ -8,7 +8,9 @@ import ru.chemakin.library.model.Person;
 import ru.chemakin.library.repositories.BookRepository;
 import ru.chemakin.library.repositories.PersonRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -50,4 +52,13 @@ public class PersonService {
         return bookRepository.findByPersonId(id);
     }
 
+    public Map<Integer, Person> getPersonMap(List<Book> bookList) {
+        Map<Integer, Person> personMap = new HashMap<>();
+        for(Book book: bookList){
+            if(book.getPersonId() != null){
+                personMap.put(book.getPersonId(), findOne(book.getPersonId()));
+            }
+        }
+        return personMap;
+    }
 }
