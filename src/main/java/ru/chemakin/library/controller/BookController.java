@@ -43,7 +43,7 @@ public class BookController {
                         @RequestParam(value = "page", required = false) Integer countPage,
                         @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
                         @RequestParam(value = "sort_by_year", required = false) String sortByYear) {
-        model.addAttribute("book", bookService.getListOfBooks(countPage, booksPerPage, sortByYear));
+        model.addAttribute("books", bookService.getListOfBooks(countPage, booksPerPage, sortByYear));
         return "book/index";
     }
 
@@ -165,6 +165,6 @@ public class BookController {
             model.addAttribute("books", bookList); // если нет совпадений то вывыдить "нет совпадений"return "redirect:/book/search";
             model.addAttribute("peoples", personService.getPersonMap(bookList));
         }
-        return "/book/search";
+        return "book/search";
     }
 }

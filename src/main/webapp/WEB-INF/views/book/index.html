@@ -6,12 +6,9 @@
 </head>
 <body>
 
-<div th:each="book : ${book}">
-    <a th:href="@{book/{id}(id=${book.getBookId()})}">
-        <span th:text="${book.getName()}"></span>,
-        <span th:text="${book.getAuthor()}"></span>,
-        <span th:text="${book.getYearOfPublishing()}"></span>
-        <br/>
+<div th:each="book : ${books}">
+    <a th:href="@{/book/{id}(id=${book.getBookId()})}"
+       th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ': ' + ${book.getYearOfPublishing()}">
     </a>
 </div>
 <br/>

@@ -10,13 +10,12 @@
 
 <div th:if="${condition}">
     <p style="font-weight: bold;">Книги:</p>
-    <a th:each="book : ${book}"
-       th:href="@{/book/{id}(id=${book.getBookId()})}">
-        <span th:text="${book.getName()}"></span>,
-        <span th:text="${book.getAuthor()}"></span>,
-        <span th:text="${book.getYearOfPublishing()}"></span>
-        <br/>
-    </a>
+    <div th:each="book : ${books}">
+        <a th:href="@{/book/{id}(id=${book.getBookId()})}"
+           th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ': ' + ${book.getYearOfPublishing()}"
+           th:style ="${book.getOverdue()} ? 'color: red' : 'color: black' ">
+        </a>
+    </div>
 </div>
 <div th:unless="${condition}">
     <p>Человек пока не взял ни одной книги.</p>
