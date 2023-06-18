@@ -9,6 +9,7 @@ import ru.chemakin.library.repositories.BookRepository;
 import ru.chemakin.library.repositories.PersonRepository;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,8 +61,8 @@ public class BookService {
     public void setPersonId(Person person, int bookId){
         Book book = bookRepository.findById(bookId).orElse(null);
         if (book != null) {
+            book.setDateIssue(new Date());
             book.setPersonId(person.getPersonId());
-            System.out.println(book.getPersonId());
             bookRepository.save(book);
         }
     }

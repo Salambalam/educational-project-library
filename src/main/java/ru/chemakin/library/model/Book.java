@@ -5,6 +5,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -27,6 +28,12 @@ public class Book {
     private int yearOfPublishing;
     @Column(name = "person_id")
     private Integer personId;
+    @Column(name = "date_of_issue")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateIssue;
+
+    @Transient
+    private boolean overdue;
 
     public Book(String name, String author, int yearOfPublishing, int bookId) {
         this.name = name;
@@ -75,5 +82,17 @@ public class Book {
 
     public void setBookId(int bookId) {
         this.bookId = bookId;
+    }
+
+    public Date getDateIssue() {
+        return dateIssue;
+    }
+
+    public void setDateIssue(Date dateIssue) {
+        this.dateIssue = dateIssue;
+    }
+
+    public boolean getOverdue(){
+        return (new Date().getTime() - this.dateIssue.getTime()) > 864_000_000;
     }
 }
